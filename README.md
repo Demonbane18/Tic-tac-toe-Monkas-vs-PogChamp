@@ -28,6 +28,8 @@ You can play it online here https://demonbane-battleships.herokuapp.com/ (may no
 **Front end:**
 
 * HTML
+* CSS
+* Javascript
 
 **Testing/Launch:**
 
