@@ -46,7 +46,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* [Hamzaavvan](https://github.com/hamzaavvan)
+* [DanKirichok](https://github.com/DanKirichok)
 
 
 
