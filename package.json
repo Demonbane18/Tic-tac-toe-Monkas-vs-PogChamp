@@ -8,6 +8,10 @@
     "start": "node server",
     "dev": "nodemon server"
   },
+  "type": "git",
+  "repository": {
+    "url": "git+https://github.com/Demonbane18/Tic-tac-toe-Monkas-vs-PogChamp"
+  },
   "author": "Demonbane18",
   "license": "ISC",
   "dependencies": {
