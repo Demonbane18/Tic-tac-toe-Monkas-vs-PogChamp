@@ -3,11 +3,11 @@
 A tic tac toe multiplayer game made using Javascript and HTML. 
 
 ## Instructions
-
+You can join a game with random players or create a private lobby with a Room code and play with your friend.
 The game is played on a grid that's 3 squares by 3 squares.
-You are X, your friend (or the computer in this case) is O. Players take turns putting their marks in empty squares.
-The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.
-When all 9 squares are full, the game is over.
+You are PogChamp, your friend is monkaS. Players take turns putting their emotes in empty squares.
+The first player to get 3 of his/her emotes in a row (up, down, across, or diagonally) is the winner.
+When all 9 squares are full, the game is over and it will be a tie. You can rematch again as long as you want.
 
 ## Installation
 
