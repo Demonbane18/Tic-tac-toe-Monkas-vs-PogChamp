@@ -1,6 +1,6 @@
 # Tic tac Toe
 
-A tic tac toe multiplayer game made using Javascript and HTML. Includes simple chat and username.
+A tic tac toe multiplayer game made using Javascript and HTML. 
 
 ## Instructions
 
