@@ -3,8 +3,12 @@ var app = express()
 var bodyParser = require('body-parser')
 var fs = require('fs')
 var path = require('path')
-var http = require('http').Server(app)
-var io = require('socket.io')(http)
+var PORT = process.env.PORT || 4000;
+const http = require('http')
+const socketio = require('socket.io')
+const server = http.createServer(app)
+const io = socketio(server)
+
 
 /////////////////////////////////////////////////////////////////
 //This fixed the issue with long disconnecting times in browsers
@@ -20,6 +24,7 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 /////////////////////////////////
 //There are 3 game type options//
 //-random					   //
@@ -303,10 +308,8 @@ io.on('connection', function(socket){
 
 //Same as above, but with port
 //If you want to load on localhost onto a different port, change 4000 to whatever port you please
-var port = process.env.PORT || 4000;
 
-http.listen(port, ipaddress, function(){
-	console.log('Running on port 4000')
-})
+
+
 
 
