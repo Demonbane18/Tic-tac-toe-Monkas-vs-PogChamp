@@ -53,13 +53,13 @@ function getRandomInt(min, max){
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//This sets the combination of what symbol each player will get
+//This sets the combination of what emote each player will get
 function assignLetter(){
 	number = getRandomInt(0, 1)
 	if (number == 0){
-		players = ["X", "O"]
+		players = ["PogChamp", "monkaS"]
 	}else if (number == 1){
-		players = ["O", "X"]
+		players = ["monkaS", "PogChamp"]
 	}
 	return players
 }

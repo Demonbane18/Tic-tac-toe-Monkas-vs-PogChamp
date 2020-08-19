@@ -1,3 +1,6 @@
+body{
+	height: 100%;
+}
 form{
 	margin: 0px;
 	padding: 0px;
@@ -10,8 +13,11 @@ table {
 #title{
 	text-align: center;
 	font-size: 250%;
-	color: #77aaff;
+	text: bold;
+	color:white;
 	font-weight: 900;
+	
+
 }
 
 #subtitle{
@@ -19,7 +25,7 @@ table {
 	margin: none;
 	padding: none;
 	text-align: center;
-	color: #ff77aa;
+	color: #97FB98;
 	font-weight: 900;
 }
 
@@ -27,6 +33,18 @@ table {
 	margin: 20px;
 	text-align: center;
 	font-size: 150%;
+}
+
+#splash-tictactoe-image{
+	
+	position: absolute;
+	width: 100%;
+	background-image: url(../images/wallpaper2.jpg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	
 }
 
 .box{
@@ -50,12 +68,19 @@ table {
 }
 
 .playerX{
-	color: #ff77aa;
+	color:rgba(0, 0, 0, 0);
+	font-size: 0.1px;
+	background-image: url(../images/PogChamp.png);
+	background-repeat: no-repeat;
+	background-size: 70px 95px;
+	background-position: center;
+	
 }
 
 #XTag{
 	color: #ff77aa;
 	font-weight: bold;
+
 }
 
 #tieTag{
@@ -68,7 +93,12 @@ table {
 }
 
 .playerO{
-	color: #77aaff;
+	color:rgba(0, 0, 0, 0);
+	font-size: 0.1px;
+	background-image: url(../images/monkaS.png);
+	background-repeat: no-repeat;
+	background-size: 85%;
+	background-position: center;
 }
 
 #scoreTitle{
@@ -200,10 +230,29 @@ form{
 	
 }
 
+footer {
+	color: white;
+	text-align: center;
+	position:absolute;
+   	left:0px;
+  	bottom:0px;
+	width:100%;
+	font-size: 125%;
+	font-weight: 850;
+}
+
+
+
 #searchState{
 	display: inline;
 }
 
 #gameContainer{
-	display: none;
+	position: absolute;
+	width: 100%;
+	background-image: url(../images/game-background.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
 }

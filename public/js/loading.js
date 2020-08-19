@@ -1,5 +1,5 @@
 /*
- *This flows the background color when searching for a game 
+ *changes the background in find players view
  */
 function init(){
 	loadingLoop = setInterval(flowBgColor, 1000/100)

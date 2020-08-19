@@ -99,9 +99,9 @@ function resetBoxes(){
 	}	
 }
 function resetScoreboard(){
-	document.getElementById("XScore").innerHTML = "0"
+	document.getElementById("PogChampScore").innerHTML = "0"
 	document.getElementById("tieScore").innerHTML = "0"
-	document.getElementById("OScore").innerHTML = "0"
+	document.getElementById("monkaSScore").innerHTML = "0"
 }
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -115,7 +115,7 @@ function checkTurn(){
 		document.getElementById("turn").innerHTML = turnText
 		document.getElementById("turn").className = "yourTurn"
 	}else{
-		turnText = " Oponnent's Turn "
+		turnText = " Opponent's Turn "
 		document.getElementById("turn").className = "notYourTurn"
 		sandwichWithSpinners("turn", turnText)
 		
@@ -137,7 +137,7 @@ socket.on("playersJoined", function(joinInfo){
 	if (playerData.roomType == "private"){
 		document.getElementById("roomId").innerHTML = "Room Code: " + joinInfo.roomId
 	}
-	document.getElementById("player").innerHTML = "Your Letter: " + joinInfo.letter
+	document.getElementById("player").innerHTML = "Your Emote: " + joinInfo.letter
 })
 
 function removeSearchAction(){
@@ -191,12 +191,12 @@ socket.on("gameNotExist", function(roomId){
 
 //Runs when other player disconnected
 socket.on("playerDisconnect", function(){
-	playerDisconnected("Opponent Disconnected")
+	playerDisconnected("Your opponent has disconnected")
 })
 
 function restartGame(){
 	document.getElementById("rematchButton").remove()
-	sandwichWithSpinners("gameState", " Waiting for Opponent ")
+	sandwichWithSpinners("gameState", " Waiting for Opponent...")
 
 	var roomId = playerData.roomId
 	socket.emit("restartGame", roomId)
@@ -225,9 +225,9 @@ function endGameInit(){
 
 socket.on("winnerDetermined", function(winner){
 	if (winner.youWon){
-		document.getElementById("gameState").innerHTML = "You Won!"
+		document.getElementById("gameState").innerHTML = "You Win!"
 	}else{
-		document.getElementById("gameState").innerHTML = "You Lost..."
+		document.getElementById("gameState").innerHTML = "You get a big L"
 	}
 	
 	addLetterToScoreboard(winner.winningLetter)
@@ -237,12 +237,13 @@ socket.on("winnerDetermined", function(winner){
 
 //Changes class of box based on the letter that is in it
 function addClassByLetter(boxId, letter){
-	if (letter == "X"){
+	if (letter == "PogChamp"){
 		document.getElementById(boxId).className += " playerX" 
-	}else if (letter == "O"){
+	}else if (letter == "monkaS"){
 		document.getElementById(boxId).className += " playerO"
 	}
 }
+
 
 socket.on("tie", function(){
 	document.getElementById("gameState").innerHTML = "You tied"
