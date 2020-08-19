@@ -13,7 +13,6 @@ table {
 #title{
 	text-align: center;
 	font-size: 250%;
-	text: bold;
 	color:white;
 	font-weight: 900;
 	
@@ -226,9 +225,6 @@ form{
 	width: 100%;
 }
 
-.loadingMenuBtn{
-	
-}
 
 footer {
 	color: white;
