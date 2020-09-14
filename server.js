@@ -33,48 +33,49 @@ server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 /////////////////////////////////
 
 var gameType;
-function getGameType(gameQuery){
-	for (key in gameQuery){
+
+function getGameType(gameQuery) {
+	for (key in gameQuery) {
 		gameType = key.toString()
 	}
 }
 
-app.get('/join', function(req, res){
+app.get('/join', function (req, res) {
 	res.sendFile(__dirname + '/views/join.html')
 })
 
-app.get('/game', function(req, res){
+app.get('/game', function (req, res) {
 	gameQuery = req.query
 	getGameType(gameQuery)
 	res.sendFile(__dirname + '/views/game.html')
 })
 
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/views/index.html')
 })
 
-function getRandomInt(min, max){
+function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 //This sets the combination of what emote each player will get
-function assignLetter(){
+function assignLetter() {
 	number = getRandomInt(0, 1)
-	if (number == 0){
-		players = ["PogChamp", "monkaS"]
-	}else if (number == 1){
-		players = ["monkaS", "PogChamp"]
+	if (number == 0) {
+		players = ["JeromeRapes", "Wheeze"]
+	} else if (number == 1) {
+		players = ["Wheeze", "JeromeRapes"]
 	}
 	return players
 }
 
 //This randomize the turns of the players
-function assignTurn(){
+function assignTurn() {
 	number = getRandomInt(0, 1)
-	if (number == 0){
+	if (number == 0) {
 		turn = [true, false]
-	}else if (number == 1){
+	} else if (number == 1) {
 		turn = [false, true]
 	}
 	return turn
@@ -82,11 +83,11 @@ function assignTurn(){
 
 //This is when you don't have the playerData and you only have the player Id.
 //This returns the whole player data when only the playerId is available
-function findOtherPlayer(playerId){
-	for (var room in gameRooms){
-		for (var i = 0; i < gameRooms[room].length; i++){
+function findOtherPlayer(playerId) {
+	for (var room in gameRooms) {
+		for (var i = 0; i < gameRooms[room].length; i++) {
 			gameRooms[room][i].id
-			if (playerId == gameRooms[room][i].id){
+			if (playerId == gameRooms[room][i].id) {
 				return gameRooms[room][i]
 			}
 		}
@@ -94,61 +95,61 @@ function findOtherPlayer(playerId){
 }
 
 //This is when you have the playerData
-function getOtherPlayer(player){
+function getOtherPlayer(player) {
 	var playerData = gameRooms[player.roomId]
-	
+
 	//console.log("\nGame Rooms:")
 	//console.log(gameRooms)
-	
+
 	//console.log("\nRoom ID:")
 	//console.log(player.roomId)
-	
+
 	var otherPlayer;
-	
-	if (playerData[0].playerNumber == player.playerNumber){
+
+	if (playerData[0].playerNumber == player.playerNumber) {
 		otherPlayer = playerData[1]
-	}else if (playerData[1].playerNumber == player.playerNumber){
+	} else if (playerData[1].playerNumber == player.playerNumber) {
 		otherPlayer = playerData[0]
 	}
-	
+
 	return otherPlayer
 }
 
-function findPlayerRoom(playerId){
-	for (var room in gameRooms){
-		for (var i = 0; i < gameRooms[room].length; i++){
+function findPlayerRoom(playerId) {
+	for (var room in gameRooms) {
+		for (var i = 0; i < gameRooms[room].length; i++) {
 			gameRooms[room][i].id
-			if (playerId == gameRooms[room][i].id){
+			if (playerId == gameRooms[room][i].id) {
 				return room
 			}
 		}
 	}
-	
+
 	//This means the player does not have a room
 	return false
 }
 
 //This is used to switch who starts the game at every new game
-function randomizePlayerTurn(playerData){
+function randomizePlayerTurn(playerData) {
 	turn = assignTurn()
-	
+
 	playerData[0].turn = turn[0]
 	playerData[1].turn = turn[1]
-	
+
 	return playerData
 }
 //randomize an id from 1 to 10000
-function getRoomId(){
+function getRoomId() {
 	return getRandomInt(1, 10000)
 }
 
-function initStartValues(){
+function initStartValues() {
 	letters = assignLetter()
 	turn = assignTurn()
 	playerData = []
 	usersOn = 1
 	roomId = getRoomId()
-	
+
 	valueList = {
 		letters: letters,
 		turn: turn,
@@ -156,14 +157,14 @@ function initStartValues(){
 		usersOn: usersOn,
 		roomId: roomId,
 	}
-	
+
 	return valueList
-	
+
 }
 
-function removePlayerFromRoom(playerId){
-	for (var i = 0; i < playerData.length; i++){
-		if (playerId == playerData[i].id){
+function removePlayerFromRoom(playerId) {
+	for (var i = 0; i < playerData.length; i++) {
+		if (playerId == playerData[i].id) {
 			playerData.splice(i, 1)
 			return
 		}
@@ -174,10 +175,10 @@ randomGame = initStartValues()
 
 gameRooms = {}
 
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
 	//console.log("\nConnection")
-		
-	if (gameType == "random"){
+
+	if (gameType == "random") {
 		var joinInfo = {
 			id: socket.id,
 			roomId: randomGame.roomId,
@@ -186,21 +187,21 @@ io.on('connection', function(socket){
 			turn: randomGame.turn[randomGame.usersOn - 1],
 			roomType: "random",
 		}
-				
+
 		randomGame.playerData.push(joinInfo)
-		
-		randomGame.usersOn ++
-		
+
+		randomGame.usersOn++
+
 		socket.emit("playersJoined", joinInfo)
-		
-		if (randomGame.usersOn > 2){
+
+		if (randomGame.usersOn > 2) {
 			gameRooms[randomGame.roomId] = randomGame.playerData
 			io.to(randomGame.playerData[0].id).emit("gameStart")
 			io.to(randomGame.playerData[1].id).emit("gameStart")
 			randomGame = initStartValues()
 		}
-		
-	}else if (gameType == "createPrivate"){
+
+	} else if (gameType == "createPrivate") {
 		var privateGame = initStartValues()
 		var joinInfo = {
 			id: socket.id,
@@ -212,18 +213,18 @@ io.on('connection', function(socket){
 			gameValues: privateGame,
 		}
 		socket.emit("playersJoined", joinInfo)
-		
+
 		gameRooms[privateGame.roomId] = [joinInfo]
-		
-	}else if (gameType == "gameCode"){
+
+	} else if (gameType == "gameCode") {
 		var gameRoomId = Number(gameQuery.gameCode)
-		if (gameRooms[gameRoomId] == undefined){
+		if (gameRooms[gameRoomId] == undefined) {
 			socket.emit("gameNotExist", gameRoomId)
-		}else{
+		} else {
 			var gameValues = gameRooms[gameRoomId][0].gameValues
-			
-			gameValues.usersOn ++
-			
+
+			gameValues.usersOn++
+
 			var joinInfo = {
 				id: socket.id,
 				roomId: gameValues.roomId,
@@ -232,33 +233,39 @@ io.on('connection', function(socket){
 				turn: gameValues.turn[gameValues.usersOn - 1],
 				roomType: "private",
 			}
-						
+
 			gameRooms[gameRoomId].push(joinInfo)
-			
+
 			socket.emit("playersJoined", joinInfo)
-			
+
 			io.to(gameRooms[gameRoomId][0].id).emit("gameStart")
 			io.to(gameRooms[gameRoomId][1].id).emit("gameStart")
 		}
 	}
-	
-	socket.on("winner", function(player){
+
+	socket.on("winner", function (player) {
 		var otherPlayer = getOtherPlayer(player)
-		
-		io.to(player.id).emit("winnerDetermined", {youWon: true, winningLetter: player.letter})
-		io.to(otherPlayer.id).emit("winnerDetermined", {youWon: false, winningLetter: player.letter})
+
+		io.to(player.id).emit("winnerDetermined", {
+			youWon: true,
+			winningLetter: player.letter
+		})
+		io.to(otherPlayer.id).emit("winnerDetermined", {
+			youWon: false,
+			winningLetter: player.letter
+		})
 	})
-	
-	socket.on("tie", function(roomId){
+
+	socket.on("tie", function (roomId) {
 		io.to(gameRooms[roomId][0].id).emit("tie")
 		io.to(gameRooms[roomId][1].id).emit("tie")
 	})
-	
-	socket.on("playedMove", function(movePlayed){		
+
+	socket.on("playedMove", function (movePlayed) {
 		var otherPlayer = getOtherPlayer(movePlayed.player)
-		
+
 		var playerRoom = movePlayed.player.roomId
-				
+
 		info = {
 			boxPlayed: movePlayed.box,
 			letter: movePlayed.player.letter
@@ -266,36 +273,36 @@ io.on('connection', function(socket){
 		io.to(otherPlayer.id).emit("yourTurn", info)
 		io.to(movePlayed.player.id).emit("otherTurn")
 	})
-	
+
 	playersRematch = 0
-	
-	socket.on("restartGame", function(roomId){
-		playersRematch ++
-		if (playersRematch == 2){
+
+	socket.on("restartGame", function (roomId) {
+		playersRematch++
+		if (playersRematch == 2) {
 			newPlayerData = randomizePlayerTurn(gameRooms[roomId])
 			io.to(gameRooms[roomId][0].id).emit("gameRestarted", newPlayerData[0])
 			io.to(gameRooms[roomId][1].id).emit("gameRestarted", newPlayerData[1])
 			playersRematch = 0
 		}
 	})
-	
-//Disconnect player
-	socket.on('disconnect', function(){
+
+	//Disconnect player
+	socket.on('disconnect', function () {
 		//console.log("\nDisconnect")
-		
+
 		removePlayerFromRoom(socket.id)
-				
+
 		//This means the player is alone as he does not have a room
-		if (!findPlayerRoom(socket.id)){
+		if (!findPlayerRoom(socket.id)) {
 			randomGame = initStartValues()
-		}else if (!(gameRooms[findPlayerRoom(socket.id)] == undefined)){ 
-			if (!(gameRooms[findPlayerRoom(socket.id)].length == 1)){
-				
+		} else if (!(gameRooms[findPlayerRoom(socket.id)] == undefined)) {
+			if (!(gameRooms[findPlayerRoom(socket.id)].length == 1)) {
+
 				var otherPlayerInfo = findOtherPlayer(socket.id)
-								
-				if (otherPlayerInfo != null){
+
+				if (otherPlayerInfo != null) {
 					var otherPlayer = getOtherPlayer(otherPlayerInfo)
-					if(otherPlayer){
+					if (otherPlayer) {
 						io.to(otherPlayer.id).emit("playerDisconnect")
 					}
 				}
@@ -308,8 +315,3 @@ io.on('connection', function(socket){
 
 //Same as above, but with port
 //If you want to load on localhost onto a different port, change 4000 to whatever port you please
-
-
-
-
-
